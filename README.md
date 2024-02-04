@@ -1,6 +1,7 @@
 # lstrip <!-- omit in toc -->
 
-**lstrip** is a small, standalone utility program that **strips leading whitespace from lines in its input**.
+Strips leading whitespace from all input lines
+
 
 ## Table of Contents
 
@@ -19,7 +20,7 @@
 
 ## Introduction
 
-T.B.C.
+**lstrip** is a small, standalone utility program that **strips leading whitespace from lines in its input**.
 
 
 ## Installation
@@ -31,12 +32,21 @@ file.
 
 ## Components
 
-T.B.C.
+The project creates a single executable program, **lstrip**.
 
 
 ## Examples
 
-T.B.C.
+```bash
+$ echo "abc" | lstrip
+abc
+$ echo "  def" | lstrip
+def
+$ echo -e "abc\n  def\n\tghi" | lstrip
+abc
+def
+ghi
+```
 
 
 ## Project Information
