@@ -5,7 +5,7 @@
 # Purpose:  Top-level CMake lists file for lstrip
 #
 # Created:  9th August 2020
-# Updated:  4th February 2024
+# Updated:  25th October 2024
 #
 # ######################################################################## #
 
@@ -19,7 +19,7 @@ cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
 file(TO_CMAKE_PATH "${CMAKE_CURRENT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
 if(EXISTS "${LOC_PATH}")
 
-    message(FATAL_ERROR "You cannot build in a source directory (or any directory with a CMakeLists.txt file). Please make a build subdirectory. Feel free to remove CMakeCache.txt and CMakeFiles.")
+	message(FATAL_ERROR "You cannot build in a source directory (or any directory with a CMakeLists.txt file). Please make a build subdirectory. Feel free to remove CMakeCache.txt and CMakeFiles.")
 endif()
 
 # directory for CMake specific extensions and source files.
@@ -30,9 +30,9 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 # project
 
 project(lstrip
-    DESCRIPTION "lstrip is a small, standalone utility program that removes leading whitespace from lines in its input"
-    HOMEPAGE_URL "https://github.com/sistools/lstrip"
-    LANGUAGES C CXX
+	DESCRIPTION "lstrip is a small, standalone utility program that removes leading whitespace from lines in its input"
+	HOMEPAGE_URL "https://github.com/sistools/lstrip"
+	LANGUAGES C CXX
 )
 
 string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
@@ -55,73 +55,144 @@ set(PROJECT_VERSION_MINOR ${_VERSION_MINOR})
 set(PROJECT_VERSION_PATCH ${_VERSION_PATCH})
 set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
 
-message(NOTICE "Generating CMake build scripts for ${PROJECT_NAME} ${PROJECT_VERSION}")
-
-
 # adhere strictly to C and C++ standards plus extensions. These are actually
 # useless since we do not compile anything; they merely state our intention.
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS ON) # GNU extensions and POSIX standard
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
+if(MSVC)
+
+	if(MSVC_VERSION LESS 1930)
+
+		set(CMAKE_C_STANDARD 90)
+		set(CMAKE_CXX_STANDARD 98)
+	endif()
+endif(MSVC)
+
 
 # ##########################################################
-# dependencies (required)
+# dependencies, includes, options
+
+# ################################################
+# includes - 1
+
+include(BuildType)
+
+
+# ################################################
+# dependencies and options
+
+
+# ######################################
+# dependencies
+#
+# required:
+# - CLASP;
+# - cstring;
+# - STLSoft;
+# - xTests - required for testing;
+#
+# optional:
+# - Catch2 - required for testing;
+
+
+# ############################
+# STLSoft
+
+if(DEFINED STLSOFT)
+
+	message("-- STLSOFT provided as CMake variable with value '${STLSOFT}'")
+
+	set(STLSOFT_INCLUDE_DIR ${STLSOFT}/include)
+elseif(DEFINED ENV{STLSOFT})
+
+	message("-- STLSOFT provided as environment variable with value '$ENV{STLSOFT}'")
+
+	set(STLSOFT_INCLUDE_DIR $ENV{STLSOFT}/include)
+else()
+
+	set(STLSoft_REQUIRED_VERSION_ 1.11)
+
+	find_package(STLSoft ${STLSoft_REQUIRED_VERSION_} REQUIRED)
+
+	message("-- CMake package STLSoft found (version ${STLSoft_VERSION}; ${STLSoft_REQUIRED_VERSION_} requested)")
+endif()
+
+if(DEFINED STLSOFT_INCLUDE_DIR)
+
+	include_directories(${STLSOFT_INCLUDE_DIR})
+endif()
+
+
+# ############################
+# CLASP
 
 set(CLASP_REQUIRED_VERSION_ 0.14.0)
-set(STLSoft_REQUIRED_VERSION_ 0.10.6)
 
 find_package(CLASP ${CLASP_REQUIRED_VERSION_} REQUIRED)
 
 message("-- CMake package CLASP found (version ${CLASP_VERSION}; ${CLASP_REQUIRED_VERSION_} requested)")
 
-find_package(STLSoft ${STLSoft_REQUIRED_VERSION_} REQUIRED)
 
-message("-- CMake package STLSoft found (version ${STLSoft_VERSION}; ${STLSoft_REQUIRED_VERSION_} requested)")
+# ############################
+# Catch2
 
 if(BUILD_TESTING)
 
-    message("-- enabled building of tests ...")
+	set(Catch2_REQUIRED_VERSION_ 2.0...<3.0)
 
+	find_package(Catch2 ${Catch2_REQUIRED_VERSION_} QUIET)
 
-    set(xTests_REQUIRED_VERSION_ 0.21.2)
+	if(Catch2_FOUND)
 
-    find_package(xTests ${xTests_REQUIRED_VERSION_} REQUIRED)
+		message("-- CMake package Catch2 found (version ${Catch2_VERSION}; ${Catch2_REQUIRED_VERSION_} requested)")
+	else(Catch2_FOUND)
 
-    message("-- CMake package xTests found (version ${xTests_VERSION}; ${xTests_REQUIRED_VERSION_} requested)")
+		if(EXISTS ${CMAKE_SOURCE_DIR}/include)
 
+			message("-- -- adding '${CMAKE_SOURCE_DIR}/include' to include-directories for testing")
 
-    if(EXISTS ${CMAKE_SOURCE_DIR}/include)
-
-        message("-- -- adding '${CMAKE_SOURCE_DIR}/include' to include-directories for testing")
-
-        include_directories(${CMAKE_SOURCE_DIR}/include)
-    endif()
+			include_directories(${CMAKE_SOURCE_DIR}/include)
+		endif()
+	endif(Catch2_FOUND)
 endif(BUILD_TESTING)
 
-# ##########################################################
-# includes
 
-if(UNIX AND APPLE)
+# ############################
+# cstring
 
-    message("-- -- adding '/usr/local/include' to include-directories")
+set(cstring_REQUIRED_VERSION_ 0.0.1)
 
-    include_directories(/usr/local/include)
+find_package(cstring ${cstring_REQUIRED_VERSION_} REQUIRED)
 
-    message("-- -- adding '/usr/local/lib' to lib-directories")
-
-    link_directories(/usr/local/lib)
-endif()
+message("-- CMake package cstring found (version ${cstring_VERSION}; ${cstring_REQUIRED_VERSION_} requested)")
 
 
+# ############################
+# xTests
 
-# ##########################################################
-# install
+if(BUILD_TESTING)
 
-# provides install directory variables as defined by the GNU Coding Standards.
+	set(xTests_REQUIRED_VERSION_ 0.25)
+
+	find_package(xTests ${xTests_REQUIRED_VERSION_} REQUIRED)
+
+	message("-- CMake package xTests found (version ${xTests_VERSION}; ${xTests_REQUIRED_VERSION_} requested)")
+endif(BUILD_TESTING)
+
+
+# ################################################
+# includes - 2
+
+include(CMakePackageConfigHelpers)
+if(BUILD_TESTING)
+
+	include(CTest)
+endif(BUILD_TESTING)
 include(GNUInstallDirs)
 
 
@@ -129,62 +200,96 @@ include(GNUInstallDirs)
 # tool - lstrip
 
 add_executable(lstrip
-    entry.c
-    lstrip.c
+	entry.c
+	lstrip.c
 )
 
 target_compile_options(lstrip PRIVATE
-    $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
-        -Werror -Wall -Wextra -pedantic
+	$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
+		-Werror -Wall -Wextra -pedantic
 
-        -Wno-ignored-qualifiers
-        -Wno-incompatible-pointer-types-discards-qualifiers
-        -Wno-unused-parameter
-    >
-    $<$<CXX_COMPILER_ID:MSVC>: /WX /W4>
+		-Wno-ignored-qualifiers
+		-Wno-incompatible-pointer-types-discards-qualifiers
+		-Wno-unused-parameter
+	>
+	$<$<CXX_COMPILER_ID:MSVC>:
+		/WX /W4
+	>
 )
 
 target_link_libraries(lstrip
-    clasp
-    cstring
+	CLASP::core
+	cstring
+	$<$<STREQUAL:${STLSOFT_INCLUDE_DIR},>:STLSoft::STLSoft>
 )
 
 install(TARGETS lstrip
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 
-# ##########################################################
-# test (and test-only dependencies)
+# ################################################
+# examples
 
-include(CTest)
+
+# ################################################
+# tests
 
 if(BUILD_TESTING)
 
-    message("-- enabled building of tests ...")
+	message("-- enabled building of tests ...")
 
-    add_executable(lstrip_test
-        lstrip_test.cpp
-        lstrip.c
-    )
+#[====[
+	add_subdirectory(test)
+#]====]
+else(BUILD_TESTING)
 
-    target_compile_options(lstrip_test PRIVATE
-        $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
-            -Werror -Wall -Wextra -pedantic
-
-            -Wno-deprecated-copy-with-user-provided-copy
-            -Wno-ignored-qualifiers
-            -Wno-incompatible-pointer-types-discards-qualifiers
-            -Wno-unused-parameter
-        >
-        $<$<CXX_COMPILER_ID:MSVC>: /WX /W4>
-    )
-
-    target_link_libraries(lstrip_test
-        clasp
-        cstring
-    )
+	message("-- disabled building of tests - define BUILD_TESTING to enable")
 endif(BUILD_TESTING)
+
+
+# ##########################################################
+# install
+
+# ##########################################################
+# test
+
+if(BUILD_TESTING)
+
+	message("-- enabled building of tests ...")
+
+	add_executable(lstrip_test
+		lstrip_test.cpp
+		lstrip.c
+	)
+
+	target_compile_options(lstrip_test PRIVATE
+		$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
+			-Werror -Wall -Wextra -pedantic
+
+			-Wno-deprecated-copy-with-user-provided-copy
+			-Wno-ignored-qualifiers
+			-Wno-incompatible-pointer-types-discards-qualifiers
+			-Wno-unused-parameter
+		>
+		$<$<CXX_COMPILER_ID:MSVC>:
+			/WX /W4
+		>
+	)
+
+	target_link_libraries(lstrip_test
+		CLASP::core
+		$<IF:$<STREQUAL:${Catch2_FOUND},>,,Catch2::Catch2>
+		cstring
+		xTests::core
+	)
+endif(BUILD_TESTING)
+
+
+# ##########################################################
+# completion
+
+message(NOTICE "Generating CMake build scripts for ${PROJECT_NAME} ${PROJECT_VERSION}, for C${CMAKE_C_STANDARD} C++${CMAKE_CXX_STANDARD}")
 
 
 # ############################## end of file ############################# #
