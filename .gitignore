@@ -89,6 +89,8 @@ build/makefile.tmpl
 build/makefile.tools.xml
 
 clasp.a
+libclasp.a
+liblstrip.a
 lstrip
 lstrip_test
 
