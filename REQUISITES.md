@@ -4,9 +4,9 @@
 - [Introduction](#introduction)
 - [Installation by CMake](#installation-by-cmake)
   - [CLASP](#clasp)
-  - [Catch2 - required only for testing lstrip](#catch2---required-only-for-testing-lstrip)
+  - [Catch2 - required only for testing](#catch2---required-only-for-testing)
   - [STLSoft](#stlsoft)
-  - [xTests - required only for testing lstrip](#xtests---required-only-for-testing-lstrip)
+  - [xTests - required only for testing](#xtests---required-only-for-testing)
 - [Installation by other means](#installation-by-other-means)
 
 
@@ -39,11 +39,11 @@ $ cd ~/open-source
 $ git clone https://github.com/synesissoftware/CLASP
 $ cd ~/open-source/CLASP
 $ ./prepare_cmake.sh -m
-$ sudo cmake --install ./_build --config Release
+$ sudo cmake --install ${SIS_CMAKE_BUILD_DIR:-./_build} --config Release
 ```
 
 
-### Catch2 - required only for testing lstrip
+### Catch2 - required only for testing
 
 **Catch2** is "_A modern, C++-native, test framework for unit-tests, TDD and BDD - using C++14, C++17 and later (C++11 support is in v2.x branch, and C++03 on the Catch1.x branch)_"
 
@@ -71,11 +71,11 @@ $ cd ~/open-source
 $ git clone https://github.com/synesissoftware/STLSoft-1.10
 $ cd ~/open-source/STLSoft-1.10
 $ ./prepare_cmake.sh -m
-$ sudo cmake --install ./_build --config Release
+$ sudo cmake --install ${SIS_CMAKE_BUILD_DIR:-./_build} --config Release
 ```
 
 
-### xTests - required only for testing lstrip
+### xTests - required only for testing
 
 **xTests** is a simple, easy-to-use, efficient testing library, for C, C++. It's not particularly great, but it's small and portable enough to be bundled with other, more important, libraries.
 
@@ -87,7 +87,7 @@ $ cd ~/open-source
 $ git clone https://github.com/synesissoftware/xTests
 $ cd ~/open-source/xTests
 $ ./prepare_cmake.sh -m
-$ sudo cmake --install ./_build --config Release
+$ sudo cmake --install ${SIS_CMAKE_BUILD_DIR:-./_build} --config Release
 ```
 
 

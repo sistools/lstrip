@@ -92,7 +92,6 @@ include(BuildType)
 #
 # required:
 # - CLASP;
-# - cstring;
 # - STLSoft;
 # - xTests - required for testing;
 #
@@ -163,16 +162,6 @@ endif(BUILD_TESTING)
 
 
 # ############################
-# cstring
-
-set(cstring_REQUIRED_VERSION_ 0.0.1)
-
-find_package(cstring ${cstring_REQUIRED_VERSION_} REQUIRED)
-
-message("-- CMake package cstring found (version ${cstring_VERSION}; ${cstring_REQUIRED_VERSION_} requested)")
-
-
-# ############################
 # xTests
 
 if(BUILD_TESTING)
@@ -204,22 +193,20 @@ add_executable(lstrip
 	lstrip.c
 )
 
-target_compile_options(lstrip PRIVATE
-	$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
-		-Werror -Wall -Wextra -pedantic
+target_compile_options(lstrip
+	PRIVATE
+		$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
+			-Werror -Wall -Wextra -pedantic
 
-		-Wno-ignored-qualifiers
-		-Wno-incompatible-pointer-types-discards-qualifiers
-		-Wno-unused-parameter
-	>
-	$<$<CXX_COMPILER_ID:MSVC>:
-		/WX /W4
-	>
+			-Wno-incompatible-pointer-types-discards-qualifiers
+		>
+		$<$<CXX_COMPILER_ID:MSVC>:
+			/WX /W4
+		>
 )
 
 target_link_libraries(lstrip
 	CLASP::core
-	cstring
 	$<$<STREQUAL:${STLSOFT_INCLUDE_DIR},>:STLSoft::STLSoft>
 )
 
@@ -239,50 +226,30 @@ if(BUILD_TESTING)
 
 	message("-- enabled building of tests ...")
 
-#[====[
-	add_subdirectory(test)
-#]====]
-else(BUILD_TESTING)
-
-	message("-- disabled building of tests - define BUILD_TESTING to enable")
-endif(BUILD_TESTING)
-
-
-# ##########################################################
-# install
-
-# ##########################################################
-# test
-
-if(BUILD_TESTING)
-
-	message("-- enabled building of tests ...")
-
 	add_executable(lstrip_test
 		lstrip_test.cpp
 		lstrip.c
 	)
 
-	target_compile_options(lstrip_test PRIVATE
-		$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
-			-Werror -Wall -Wextra -pedantic
-
-			-Wno-deprecated-copy-with-user-provided-copy
-			-Wno-ignored-qualifiers
-			-Wno-incompatible-pointer-types-discards-qualifiers
-			-Wno-unused-parameter
-		>
-		$<$<CXX_COMPILER_ID:MSVC>:
-			/WX /W4
-		>
+	target_compile_options(lstrip_test
+		PRIVATE
+			$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
+				-Werror -Wall -Wextra -pedantic
+			>
+			$<$<CXX_COMPILER_ID:MSVC>:
+				/WX /W4
+			>
 	)
 
 	target_link_libraries(lstrip_test
 		CLASP::core
 		$<IF:$<STREQUAL:${Catch2_FOUND},>,,Catch2::Catch2>
-		cstring
+		$<$<STREQUAL:${STLSOFT_INCLUDE_DIR},>:STLSoft::STLSoft>
 		xTests::core
 	)
+else(BUILD_TESTING)
+
+	message("-- disabled building of tests - define BUILD_TESTING to enable")
 endif(BUILD_TESTING)
 
 

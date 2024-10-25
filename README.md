@@ -57,7 +57,7 @@ ghi
 
 ### Contribution guidelines
 
-Defect reports, feature requests, and pull requests are welcome on [the **cstring** GitHub page](https://github.com/sistools/lstrip).
+Defect reports, feature requests, and pull requests are welcome on [the **lstrip** GitHub page](https://github.com/sistools/lstrip).
 
 ### Dependencies
 
