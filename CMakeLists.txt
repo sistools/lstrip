@@ -5,7 +5,7 @@
 # Purpose:  Top-level CMake lists file for lstrip
 #
 # Created:  9th August 2020
-# Updated:  25th October 2024
+# Updated:  11th March 2025
 #
 # ######################################################################## #
 
@@ -66,11 +66,30 @@ set(CMAKE_CXX_EXTENSIONS ON)
 
 if(MSVC)
 
+	if(MSVC_VERSION GREATER_EQUAL 1914)
+
+		add_compile_options("/Zc:__cplusplus")
+
+		add_definitions(-D_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING)
+	endif()
+
 	if(MSVC_VERSION LESS 1930)
 
 		set(CMAKE_C_STANDARD 90)
 		set(CMAKE_CXX_STANDARD 98)
 	endif()
+
+	if(MSVC_USE_MT)
+
+		set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+	endif(MSVC_USE_MT)
+else(MSVC)
+
+	if(MSVC_USE_MT)
+
+		# this here just to absorb warning about not using `MSVC_USE_MT` (to
+		# enable **prepare_cmake.sh** to be simple)
+	endif(MSVC_USE_MT)
 endif(MSVC)
 
 
@@ -92,6 +111,7 @@ include(BuildType)
 #
 # required:
 # - CLASP;
+# - cstring;
 # - STLSoft;
 # - xTests - required for testing;
 #
@@ -130,7 +150,7 @@ endif()
 # ############################
 # CLASP
 
-set(CLASP_REQUIRED_VERSION_ 0.14.0)
+set(CLASP_REQUIRED_VERSION_ 0.15)
 
 find_package(CLASP ${CLASP_REQUIRED_VERSION_} REQUIRED)
 
@@ -159,6 +179,16 @@ if(BUILD_TESTING)
 		endif()
 	endif(Catch2_FOUND)
 endif(BUILD_TESTING)
+
+
+# ############################
+# cstring
+
+set(cstring_REQUIRED_VERSION_ 0.0.1)
+
+find_package(cstring ${cstring_REQUIRED_VERSION_} REQUIRED)
+
+message("-- CMake package cstring found (version ${cstring_VERSION}; ${cstring_REQUIRED_VERSION_} requested)")
 
 
 # ############################
@@ -207,6 +237,7 @@ target_compile_options(lstrip
 
 target_link_libraries(lstrip
 	CLASP::core
+	# $<IF:$<VERSION_LESS:${cstring_VERSION},"4.0.10">,cstring::cstring,cstring::core>
 	$<$<STREQUAL:${STLSOFT_INCLUDE_DIR},>:STLSoft::STLSoft>
 )
 
@@ -244,6 +275,7 @@ if(BUILD_TESTING)
 	target_link_libraries(lstrip_test
 		CLASP::core
 		$<IF:$<STREQUAL:${Catch2_FOUND},>,,Catch2::Catch2>
+		# $<IF:$<VERSION_LESS:${cstring_VERSION},"4.0.10">,cstring::cstring,cstring::core>
 		$<$<STREQUAL:${STLSOFT_INCLUDE_DIR},>:STLSoft::STLSoft>
 		xTests::core
 	)
