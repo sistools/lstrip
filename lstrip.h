@@ -5,7 +5,7 @@
 
 #define SISTOOL_LSTRIP_VER_MAJOR        0
 #define SISTOOL_LSTRIP_VER_MINOR        1
-#define SISTOOL_LSTRIP_VER_PATCH        0
+#define SISTOOL_LSTRIP_VER_PATCH        1
 
 
 /* *********************************************************
