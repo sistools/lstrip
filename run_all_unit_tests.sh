@@ -6,6 +6,9 @@ Basename=$(basename "$ScriptPath")
 CMakeDir=${SIS_CMAKE_BUILD_DIR:-$Dir/_build}
 MakeCmd=${SIS_CMAKE_COMMAND:-make}
 
+ListOnly=0
+RunMake=1
+
 
 # ##########################################################
 # command-line handling
@@ -13,17 +16,33 @@ MakeCmd=${SIS_CMAKE_COMMAND:-make}
 while [[ $# -gt 0 ]]; do
 
   case $1 in
+    --list-only|-l)
+
+      ListOnly=1
+      ;;
+    --no-make|-M)
+
+      RunMake=0
+      ;;
     --help)
 
       [ -f "$Dir/.sis/script_info_lines.txt" ] && cat "$Dir/.sis/script_info_lines.txt"
       cat << EOF
-Runs all (matching) unit-test programs
+Runs all (matching) component and unit test programs
 
 $ScriptPath [ ... flags/options ... ]
 
 Flags/options:
 
     behaviour:
+
+    -l
+    --list-only
+        lists the target programs but does not execute them
+
+    -M
+    --no-make
+        does not execute CMake and make before running tests
 
 
     standard flags:
