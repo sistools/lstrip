@@ -3,24 +3,24 @@
 ScriptPath=$0
 Dir=$(cd $(dirname "$ScriptPath"); pwd)
 Basename=$(basename "$ScriptPath")
-CMakePath=$Dir/_build
+CMakeDir=${SIS_CMAKE_BUILD_DIR:-$Dir/_build}
 
 Directories=(
-    CMakeFiles
-    Testing
-    cmake
-    examples
-    projects
-    src
-    test
+  CMakeFiles
+  Testing
+  cmake
+  examples
+  projects
+  src
+  test
 )
 Files=(
-    CMakeCache.txt
-    CTestTestfile.cmake
-    DartConfiguration.tcl
-    Makefile
-    cmake_install.cmake
-    install_manifest.txt
+  CMakeCache.txt
+  CTestTestfile.cmake
+  DartConfiguration.tcl
+  Makefile
+  cmake_install.cmake
+  install_manifest.txt
 )
 
 
@@ -31,9 +31,8 @@ while [[ $# -gt 0 ]]; do
     case $1 in
         --help)
 
+            [ -f "$Dir/.sis/script_info_lines.txt" ] && cat "$Dir/.sis/script_info_lines.txt"
             cat << EOF
-lstrip is a small, standalone utility program that removes leading whitespace from lines in its input
-Copyright (c) 2020-2024, Matthew Wilson and Synesis Information Systems
 Removes all known CMake artefacts
 
 $ScriptPath [ ... flags/options ... ]

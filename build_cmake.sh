@@ -12,9 +12,9 @@ CMakePath=$Dir/_build
 while [[ $# -gt 0 ]]; do
     case $1 in
         --help)
+
+            [ -f "$Dir/.sis/script_info_lines.txt" ] && cat "$Dir/.sis/script_info_lines.txt"
             cat << EOF
-lstrip is a small, standalone utility program that removes leading whitespace from lines in its input
-Copyright (c) 2020-2024, Matthew Wilson and Synesis Information Systems
 Executes CMake-generated artefacts to (re)build project
 
 $ScriptPath [ ... flags/options ... ]
@@ -34,6 +34,7 @@ EOF
             exit 0
             ;;
         *)
+
             >&2 echo "$ScriptPath: unrecognised argument '$1'; use --help for usage"
 
             exit 1
