@@ -13,6 +13,7 @@ else
   DefaultMakeCmd=make
 fi
 MakeCmd=${SIS_CMAKE_MAKE_COMMAND:-${SIS_CMAKE_COMMAND:-$DefaultMakeCmd}}
+ProjectName=$(cat "$Dir/.sis/project_name.txt")
 
 ListOnly=0
 RunMake=1
@@ -87,7 +88,7 @@ status=0
 
 if make; then
 
-  for f in $(find $Dir -type f -perm +111 '(' -name '*lstrip*test*' ')')
+  for f in $(find $CMakeDir -type f '(' -name "*${ProjectName}*test*" ')' -exec test -x {} \; -print)
   do
 
     echo
