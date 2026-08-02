@@ -18,6 +18,7 @@ Strips leading whitespace from all input lines
   - [Related projects](#related-projects)
   - [License](#license)
 
+
 ## Introduction
 
 **lstrip** is a small, standalone utility program that **strips leading whitespace from lines in its input**.
@@ -51,13 +52,16 @@ ghi
 
 ## Project Information
 
+
 ### Where to get help
 
 [GitHub Page](https://github.com/sistools/lstrip "GitHub Page")
 
+
 ### Contribution guidelines
 
 Defect reports, feature requests, and pull requests are welcome on [the **cstring** GitHub page](https://github.com/sistools/lstrip).
+
 
 ### Dependencies
 
