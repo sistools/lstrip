@@ -3,6 +3,13 @@
 Strips leading whitespace from all input lines
 
 
+![C](https://img.shields.io/badge/C-00599C?style=flat&logo=c&logoColor=white)
+[![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+[![GitHub release](https://img.shields.io/github/v/release/sistools/lstrip.svg)](https://github.com/sistools/lstrip/releases/latest)
+[![Last Commit](https://img.shields.io/github/last-commit/sistools/lstrip)](https://github.com/sistools/lstrip/commits/master)
+[![CI](https://github.com/sistools/lstrip/actions/workflows/ci.yml/badge.svg)](https://github.com/sistools/lstrip/actions/workflows/ci.yml)
+
+
 ## Table of Contents
 
 - [Table of Contents](#table-of-contents)
@@ -17,6 +24,7 @@ Strips leading whitespace from all input lines
     - [Tests-only Dependencies](#tests-only-dependencies)
   - [Related projects](#related-projects)
   - [License](#license)
+
 
 ## Introduction
 
@@ -51,13 +59,16 @@ ghi
 
 ## Project Information
 
+
 ### Where to get help
 
 [GitHub Page](https://github.com/sistools/lstrip "GitHub Page")
 
+
 ### Contribution guidelines
 
 Defect reports, feature requests, and pull requests are welcome on [the **cstring** GitHub page](https://github.com/sistools/lstrip).
+
 
 ### Dependencies
 
