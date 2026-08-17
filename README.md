@@ -88,10 +88,17 @@ For unit-testing, **lstrip** depends additionally on:
 
 ### Related projects
 
-Other (similar) project include:
+Other **sistools** projects include:
 
-* [**chomp**](https://github.com/sistools/chomp)
-* [**rstrip**](https://github.com/sistools/rstrip)
+* [**chomp**](https://github.com/sistools/chomp);
+* [**errni**](https://github.com/sistools/errni) (errno on all platforms, and also GetLastError codes on Windows);
+* [**lnunique**](https://github.com/sistools/lnunique);
+* [**lslocales**](https://github.com/sistools/lslocales);
+* [**mksock**](https://github.com/sistools/mksock) (Unix-only);
+* [**ReadDebugString**](https://github.com/sistools/ReadDebugString) (Windows-only);
+* [**realpath**](https://github.com/sistools/realpath) (Windows-only);
+* [**rstrip**](https://github.com/sistools/rstrip);
+* [**WriteDebugString**](https://github.com/sistools/WriteDebugString) (Windows-only);
 
 
 ### License
