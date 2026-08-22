@@ -10,9 +10,8 @@ Strips leading whitespace from all input lines
 [![CI](https://github.com/sistools/lstrip/actions/workflows/ci.yml/badge.svg)](https://github.com/sistools/lstrip/actions/workflows/ci.yml)
 
 
-## Table of Contents
+## Table of Contents <!-- omit in toc -->
 
-- [Table of Contents](#table-of-contents)
 - [Introduction](#introduction)
 - [Installation](#installation)
 - [Components](#components)

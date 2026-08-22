@@ -7,10 +7,10 @@ PROJECT_NUMBER         = 0.1.1
 OUTPUT_DIRECTORY       = _build/doxygen
 CREATE_SUBDIRS         = NO
 
-INPUT                  = lstrip.h \
+INPUT                  = doc \
                          lstrip.c \
-                         entry.c \
-                         doc
+                         lstrip.h \
+                         entry.c
 FILE_PATTERNS          = *.h \
                          *.c \
                          *.md
