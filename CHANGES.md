@@ -1,4 +1,4 @@
-# **lstrip** Changes <!-- omit in toc -->
+# lstrip - Changes <!-- omit in toc -->
 
 
 ## 0.1.1 - 3rd August 2026
