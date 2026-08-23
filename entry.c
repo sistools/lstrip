@@ -19,21 +19,21 @@
  * macros
  */
 
-#define SIS_DOTSTAR(slice)                                  (int)(slice).len, (slice).ptr
+#define SIS_DOTSTAR(slice)                  (int)(slice).len, (slice).ptr
 
 
 /* *********************************************************
  * constants
  */
 
-#define TOOLNAME                        "lstrip"
-#define PROGRAM_VER_MAJOR               SISTOOL_LSTRIP_VER_MAJOR
-#define PROGRAM_VER_MINOR               SISTOOL_LSTRIP_VER_MINOR
-#define PROGRAM_VER_PATCH               SISTOOL_LSTRIP_VER_PATCH
-#define SUMMARY                         "Synesis System Tools"
-#define COPYRIGHT                       "Copyright (c) 2020-2024 Synesis Information Systems"
-#define DESCRIPTION                     "Strips any leading whitespace, if present, from input lines"
-#define USAGE                           TOOLNAME " [ ... flags/options ... ] [ { <input-file> | - } [ { <output-file> | - } ]]"
+#define TOOLNAME                            "lstrip"
+#define PROGRAM_VER_MAJOR                   SISTOOL_LSTRIP_VER_MAJOR
+#define PROGRAM_VER_MINOR                   SISTOOL_LSTRIP_VER_MINOR
+#define PROGRAM_VER_PATCH                   SISTOOL_LSTRIP_VER_PATCH
+#define SUMMARY                             "Synesis System Tools"
+#define COPYRIGHT                           "Copyright (c) 2020-2024 Synesis Information Systems"
+#define DESCRIPTION                         "Strips any leading whitespace, if present, from input lines"
+#define USAGE                               TOOLNAME " [ ... flags/options ... ] [ { <input-file> | - } [ { <output-file> | - } ]]"
 
 static clasp_alias_t const Aliases[] = {
 
