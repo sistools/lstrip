@@ -64,7 +64,7 @@ $ sudo cmake --build _build/ --target install
 
 The **STLSoft** libraries provide a wide range of compiler/library discrimination and compatibility facilities, operating system API façades, and a number of extended components over and above what is provided in the standard library.
 
-**STLSoft 1.11.1** or later is obtained from **https://github.com/synesissoftware/STLSoft**, and it provides the means to install via **CMake**, as in the following:
+**STLSoft** or later is obtained from **https://github.com/synesissoftware/STLSoft**, and it provides the means to install via **CMake**, as in the following:
 
 ```bash
 $ mkdir -p ~/open-source
