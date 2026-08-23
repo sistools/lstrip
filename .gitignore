@@ -8,7 +8,6 @@
 /_internal/
 
 /bin/
-/doc/
 /include/
 /lib/
 /node_modules/
@@ -88,9 +87,6 @@ update_deps.cmd
 build/makefile.tmpl
 build/makefile.tools.xml
 
-clasp.a
-libclasp.a
-liblstrip.a
 lstrip
 lstrip_test
 

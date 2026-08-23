@@ -3,9 +3,15 @@
 Strips leading whitespace from all input lines
 
 
-## Table of Contents
+![C](https://img.shields.io/badge/C-00599C?style=flat&logo=c&logoColor=white)
+[![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+[![GitHub release](https://img.shields.io/github/v/release/sistools/lstrip.svg)](https://github.com/sistools/lstrip/releases/latest)
+[![Last Commit](https://img.shields.io/github/last-commit/sistools/lstrip)](https://github.com/sistools/lstrip/commits/master)
+[![CI](https://github.com/sistools/lstrip/actions/workflows/ci.yml/badge.svg)](https://github.com/sistools/lstrip/actions/workflows/ci.yml)
 
-- [Table of Contents](#table-of-contents)
+
+## Table of Contents <!-- omit in toc -->
+
 - [Introduction](#introduction)
 - [Installation](#installation)
 - [Components](#components)
@@ -17,6 +23,7 @@ Strips leading whitespace from all input lines
     - [Tests-only Dependencies](#tests-only-dependencies)
   - [Related projects](#related-projects)
   - [License](#license)
+
 
 ## Introduction
 
@@ -51,13 +58,16 @@ ghi
 
 ## Project Information
 
+
 ### Where to get help
 
 [GitHub Page](https://github.com/sistools/lstrip "GitHub Page")
 
+
 ### Contribution guidelines
 
 Defect reports, feature requests, and pull requests are welcome on [the **lstrip** GitHub page](https://github.com/sistools/lstrip).
+
 
 ### Dependencies
 
@@ -77,10 +87,17 @@ For unit-testing, **lstrip** depends additionally on:
 
 ### Related projects
 
-Other (similar) project include:
+Other **sistools** projects include:
 
-* [**chomp**](https://github.com/sistools/chomp)
-* [**rstrip**](https://github.com/sistools/rstrip)
+* [**chomp**](https://github.com/sistools/chomp);
+* [**errni**](https://github.com/sistools/errni) (errno on all platforms, and also GetLastError codes on Windows);
+* [**lnunique**](https://github.com/sistools/lnunique);
+* [**lslocales**](https://github.com/sistools/lslocales);
+* [**mksock**](https://github.com/sistools/mksock) (Unix-only);
+* [**ReadDebugString**](https://github.com/sistools/ReadDebugString) (Windows-only);
+* [**realpath**](https://github.com/sistools/realpath) (Windows-only);
+* [**rstrip**](https://github.com/sistools/rstrip);
+* [**WriteDebugString**](https://github.com/sistools/WriteDebugString) (Windows-only);
 
 
 ### License

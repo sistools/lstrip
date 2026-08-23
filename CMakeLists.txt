@@ -5,7 +5,7 @@
 # Purpose:  Top-level CMake lists file for lstrip
 #
 # Created:  9th August 2020
-# Updated:  11th March 2025
+# Updated:  3rd August 2026
 #
 # ######################################################################## #
 
@@ -57,10 +57,16 @@ set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT
 
 # adhere strictly to C and C++ standards plus extensions. These are actually
 # useless since we do not compile anything; they merely state our intention.
-set(CMAKE_C_STANDARD 17)
+if(NOT CMAKE_C_STANDARD)
+
+	set(CMAKE_C_STANDARD 17)
+endif()
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS ON) # GNU extensions and POSIX standard
-set(CMAKE_CXX_STANDARD 20)
+if(NOT CMAKE_CXX_STANDARD)
+
+	set(CMAKE_CXX_STANDARD 17)
+endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
@@ -100,10 +106,26 @@ endif(MSVC)
 # includes - 1
 
 include(BuildType)
+#[====[
+include(LanguageFullVersion)
+include(TargetMacros)
+#]====]
 
 
 # ################################################
-# dependencies and options
+# dependencies, features, and options
+
+
+# ######################################
+# options
+
+option(BUILD_EXAMPLES "Build examples" ON)
+
+option(BUILD_TESTING "Build tests" ON)
+
+
+# ######################################
+# features
 
 
 # ######################################
@@ -111,50 +133,14 @@ include(BuildType)
 #
 # required:
 # - CLASP;
-# - cstring;
 # - STLSoft;
+#
+#
+# required if testing enabled:
+# - Catch2 - required for testing;
 # - xTests - required for testing;
 #
 # optional:
-# - Catch2 - required for testing;
-
-
-# ############################
-# STLSoft
-
-if(DEFINED STLSOFT)
-
-	message("-- STLSOFT provided as CMake variable with value '${STLSOFT}'")
-
-	set(STLSOFT_INCLUDE_DIR ${STLSOFT}/include)
-elseif(DEFINED ENV{STLSOFT})
-
-	message("-- STLSOFT provided as environment variable with value '$ENV{STLSOFT}'")
-
-	set(STLSOFT_INCLUDE_DIR $ENV{STLSOFT}/include)
-else()
-
-	set(STLSoft_REQUIRED_VERSION_ 1.11)
-
-	find_package(STLSoft ${STLSoft_REQUIRED_VERSION_} REQUIRED)
-
-	message("-- CMake package STLSoft found (version ${STLSoft_VERSION}; ${STLSoft_REQUIRED_VERSION_} requested)")
-endif()
-
-if(DEFINED STLSOFT_INCLUDE_DIR)
-
-	include_directories(${STLSOFT_INCLUDE_DIR})
-endif()
-
-
-# ############################
-# CLASP
-
-set(CLASP_REQUIRED_VERSION_ 0.15)
-
-find_package(CLASP ${CLASP_REQUIRED_VERSION_} REQUIRED)
-
-message("-- CMake package CLASP found (version ${CLASP_VERSION}; ${CLASP_REQUIRED_VERSION_} requested)")
 
 
 # ############################
@@ -182,13 +168,41 @@ endif(BUILD_TESTING)
 
 
 # ############################
-# cstring
+# CLASP
 
-set(cstring_REQUIRED_VERSION_ 0.0.1)
+set(CLASP_REQUIRED_VERSION_ 0.15)
 
-find_package(cstring ${cstring_REQUIRED_VERSION_} REQUIRED)
+find_package(CLASP ${CLASP_REQUIRED_VERSION_} REQUIRED)
 
-message("-- CMake package cstring found (version ${cstring_VERSION}; ${cstring_REQUIRED_VERSION_} requested)")
+message("-- CMake package CLASP found (version ${CLASP_VERSION}; ${CLASP_REQUIRED_VERSION_} requested)")
+
+
+# ############################
+# STLSoft
+
+if(DEFINED STLSOFT)
+
+	message("-- STLSOFT provided as CMake variable with value '${STLSOFT}'")
+
+	set(STLSOFT_INCLUDE_DIR ${STLSOFT}/include)
+elseif(DEFINED ENV{STLSOFT})
+
+	message("-- STLSOFT provided as environment variable with value '$ENV{STLSOFT}'")
+
+	set(STLSOFT_INCLUDE_DIR $ENV{STLSOFT}/include)
+else()
+
+	set(STLSoft_REQUIRED_VERSION_ 1.11.1)
+
+	find_package(STLSoft ${STLSoft_REQUIRED_VERSION_} REQUIRED)
+
+	message("-- CMake package STLSoft found (version ${STLSoft_VERSION}; ${STLSoft_REQUIRED_VERSION_} requested)")
+endif()
+
+if(DEFINED STLSOFT_INCLUDE_DIR)
+
+	include_directories(${STLSOFT_INCLUDE_DIR})
+endif()
 
 
 # ############################
@@ -196,7 +210,7 @@ message("-- CMake package cstring found (version ${cstring_VERSION}; ${cstring_R
 
 if(BUILD_TESTING)
 
-	set(xTests_REQUIRED_VERSION_ 0.25)
+	set(xTests_REQUIRED_VERSION_ 0.26.4)
 
 	find_package(xTests ${xTests_REQUIRED_VERSION_} REQUIRED)
 
@@ -216,33 +230,40 @@ include(GNUInstallDirs)
 
 
 # ##########################################################
-# tool - lstrip
+# tool
 
-add_executable(lstrip
+add_executable(${PROJECT_NAME_LOWER}
 	entry.c
-	lstrip.c
+	${PROJECT_NAME_LOWER}.c
 )
 
-target_compile_options(lstrip
+target_compile_options(${PROJECT_NAME_LOWER}
 	PRIVATE
 		$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
 			-Werror -Wall -Wextra -pedantic
 
+			-Wno-ignored-qualifiers
 			-Wno-incompatible-pointer-types-discards-qualifiers
+			-Wno-unused-parameter
 		>
 		$<$<CXX_COMPILER_ID:MSVC>:
 			/WX /W4
+
+			/wd4996
 		>
 )
 
-target_link_libraries(lstrip
+target_link_libraries(${PROJECT_NAME_LOWER}
 	CLASP::core
-	# $<IF:$<VERSION_LESS:${cstring_VERSION},"4.0.10">,cstring::cstring,cstring::core>
-	$<$<STREQUAL:${STLSOFT_INCLUDE_DIR},>:STLSoft::STLSoft>
 )
 
-install(TARGETS lstrip
+install(TARGETS ${PROJECT_NAME_LOWER}
 	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+install(FILES
+	doc/${PROJECT_NAME_LOWER}.1
+	DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
 )
 
 
@@ -257,25 +278,31 @@ if(BUILD_TESTING)
 
 	message("-- enabled building of tests ...")
 
-	add_executable(lstrip_test
-		lstrip_test.cpp
-		lstrip.c
+	add_executable(${PROJECT_NAME_LOWER}_test
+		${PROJECT_NAME_LOWER}_test.cpp
+		${PROJECT_NAME_LOWER}.c
 	)
 
-	target_compile_options(lstrip_test
+	target_compile_options(${PROJECT_NAME_LOWER}_test
 		PRIVATE
 			$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
 				-Werror -Wall -Wextra -pedantic
+
+				-Wno-deprecated-copy-with-user-provided-copy
+				-Wno-ignored-qualifiers
+				-Wno-incompatible-pointer-types-discards-qualifiers
+				-Wno-unused-parameter
 			>
 			$<$<CXX_COMPILER_ID:MSVC>:
 				/WX /W4
+
+				/wd4996
 			>
 	)
 
-	target_link_libraries(lstrip_test
-		CLASP::core
+	target_link_libraries(${PROJECT_NAME_LOWER}_test
 		$<IF:$<STREQUAL:${Catch2_FOUND},>,,Catch2::Catch2>
-		# $<IF:$<VERSION_LESS:${cstring_VERSION},"4.0.10">,cstring::cstring,cstring::core>
+		CLASP::core
 		$<$<STREQUAL:${STLSOFT_INCLUDE_DIR},>:STLSoft::STLSoft>
 		xTests::core
 	)
@@ -288,8 +315,7 @@ endif(BUILD_TESTING)
 # ##########################################################
 # completion
 
-message(NOTICE "Generating CMake build scripts for ${PROJECT_NAME} ${PROJECT_VERSION}, for C${CMAKE_C_STANDARD} C++${CMAKE_CXX_STANDARD}")
+message(NOTICE "Generating CMake build scripts for ${PROJECT_NAME} ${PROJECT_VERSION}, for C${CMAKE_C_STANDARD} C++${CMAKE_CXX_STANDARD}, with build type ${CMAKE_BUILD_TYPE}")
 
 
 # ############################## end of file ############################# #
-
