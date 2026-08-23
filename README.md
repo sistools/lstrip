@@ -10,9 +10,8 @@ Strips leading whitespace from all input lines
 [![CI](https://github.com/sistools/lstrip/actions/workflows/ci.yml/badge.svg)](https://github.com/sistools/lstrip/actions/workflows/ci.yml)
 
 
-## Table of Contents
+## Table of Contents <!-- omit in toc -->
 
-- [Table of Contents](#table-of-contents)
 - [Introduction](#introduction)
 - [Installation](#installation)
 - [Components](#components)
@@ -67,7 +66,7 @@ ghi
 
 ### Contribution guidelines
 
-Defect reports, feature requests, and pull requests are welcome on [the **cstring** GitHub page](https://github.com/sistools/lstrip).
+Defect reports, feature requests, and pull requests are welcome on [the **lstrip** GitHub page](https://github.com/sistools/lstrip).
 
 
 ### Dependencies
@@ -75,7 +74,7 @@ Defect reports, feature requests, and pull requests are welcome on [the **cstrin
 **lstrip** depends on:
 
 * [**CLASP**](https://github.com/synesissoftware/CLASP);
-* [**STLSoft 1.10**](https://github.com/synesissoftware/STLSoft-1.10);
+* [**STLSoft**](https://github.com/synesissoftware/STLSoft);
 
 
 #### Tests-only Dependencies
@@ -88,10 +87,17 @@ For unit-testing, **lstrip** depends additionally on:
 
 ### Related projects
 
-Other (similar) project include:
+Other **sistools** projects include:
 
-* [**chomp**](https://github.com/sistools/chomp)
-* [**rstrip**](https://github.com/sistools/rstrip)
+* [**chomp**](https://github.com/sistools/chomp);
+* [**errni**](https://github.com/sistools/errni) (errno on all platforms, and also GetLastError codes on Windows);
+* [**lnunique**](https://github.com/sistools/lnunique);
+* [**lslocales**](https://github.com/sistools/lslocales);
+* [**mksock**](https://github.com/sistools/mksock) (Unix-only);
+* [**ReadDebugString**](https://github.com/sistools/ReadDebugString) (Windows-only);
+* [**realpath**](https://github.com/sistools/realpath) (Windows-only);
+* [**rstrip**](https://github.com/sistools/rstrip);
+* [**WriteDebugString**](https://github.com/sistools/WriteDebugString) (Windows-only);
 
 
 ### License

@@ -1,4 +1,4 @@
-# lstrip - TODO list <!-- omit in toc -->
+# lstrip - TODO <!-- omit in toc -->
 
 
 ## lstrip 0.1.x TODOs:

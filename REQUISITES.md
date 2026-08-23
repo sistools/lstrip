@@ -4,9 +4,9 @@
 - [Introduction](#introduction)
 - [Installation by CMake](#installation-by-cmake)
   - [CLASP](#clasp)
-  - [Catch2 - required only for testing lstrip](#catch2---required-only-for-testing-lstrip)
+  - [Catch2 - required only for testing](#catch2---required-only-for-testing)
   - [STLSoft](#stlsoft)
-  - [xTests - required only for testing lstrip](#xtests---required-only-for-testing-lstrip)
+  - [xTests - required only for testing](#xtests---required-only-for-testing)
 - [Installation by other means](#installation-by-other-means)
 
 
@@ -15,7 +15,7 @@
 The **lstrip** program (implemented in [**entry.c**](./entry.c)) is implemented in terms of:
 
 * [**CLASP**](https://github.com/synesissoftware/CLASP) - for command-line handling;
-* [**STLSoft**](https://github.com/synesissoftware/STLSoft-1.10) - for CLI utility functions;
+* [**STLSoft**](https://github.com/synesissoftware/STLSoft) - for CLI utility functions;
 
 Further, the **lstrip_test** program (implemented in [**lstrip_test.cpp**](./lstrip_test.cpp)), which is used only to test the **lstrip** library, also depends on:
 
@@ -40,11 +40,11 @@ $ cd ~/open-source
 $ git clone https://github.com/synesissoftware/CLASP
 $ cd ~/open-source/CLASP
 $ ./prepare_cmake.sh -m
-$ sudo cmake --install ./_build --config Release
+$ sudo cmake --install ${SIS_CMAKE_BUILD_DIR:-./_build} --config Release
 ```
 
 
-### Catch2 - required only for testing lstrip
+### Catch2 - required only for testing
 
 **Catch2** is "_A modern, C++-native, test framework for unit-tests, TDD and BDD - using C++14, C++17 and later (C++11 support is in v2.x branch, and C++03 on the Catch1.x branch)_"
 
@@ -64,19 +64,28 @@ $ sudo cmake --build _build/ --target install
 
 The **STLSoft** libraries provide a wide range of compiler/library discrimination and compatibility facilities, operating system API façades, and a number of extended components over and above what is provided in the standard library.
 
-**STLSoft** is obtained from **https://github.com/synesissoftware/STLSoft-1.10**, and it provides the means to install via **CMake**, as in the following:
+**STLSoft 1.11.1** or later is obtained from **https://github.com/synesissoftware/STLSoft**, and it provides the means to install via **CMake**, as in the following:
 
 ```bash
 $ mkdir -p ~/open-source
 $ cd ~/open-source
-$ git clone https://github.com/synesissoftware/STLSoft-1.10
-$ cd ~/open-source/STLSoft-1.10
+$ git clone https://github.com/synesissoftware/STLSoft
+$ cd ~/open-source/STLSoft
 $ ./prepare_cmake.sh -m
-$ sudo cmake --install ./_build --config Release
+$ sudo cmake --install ${SIS_CMAKE_BUILD_DIR:-./_build} --config Release
+```
+
+When **STLSoft** has not been installed, **lstrip** can use an existing source
+tree instead. Supply its root directory through the **prepare_cmake.sh** option
+`--stlsoft-root-dir` or `-s`, or through the `STLSOFT` environment variable.
+
+```bash
+$ ./prepare_cmake.sh --stlsoft-root-dir ~/open-source/STLSoft
+$ STLSOFT=~/open-source/STLSoft ./prepare_cmake.sh -T
 ```
 
 
-### xTests - required only for testing lstrip
+### xTests - required only for testing
 
 **xTests** is a simple, easy-to-use, efficient testing library, for C, C++. It's not particularly great, but it's small and portable enough to be bundled with other, more important, libraries.
 
@@ -88,7 +97,7 @@ $ cd ~/open-source
 $ git clone https://github.com/synesissoftware/xTests
 $ cd ~/open-source/xTests
 $ ./prepare_cmake.sh -m
-$ sudo cmake --install ./_build --config Release
+$ sudo cmake --install ${SIS_CMAKE_BUILD_DIR:-./_build} --config Release
 ```
 
 
