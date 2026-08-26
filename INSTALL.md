@@ -88,7 +88,7 @@ The primary choice for installation is by use of **CMake**.
 
     ```plaintext
     Synesis System Tools
-    lstrip version 0.1.1.0
+    lstrip version 0.1.2.0
     Copyright (c) 2020-2024 Synesis Information Systems
     Strips any leading whitespace, if present, from input lines
 
