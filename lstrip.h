@@ -4,8 +4,9 @@
 #define SIS_INCL_H_LSTRIP
 
 #define SISTOOL_LSTRIP_VER_MAJOR        0
-#define SISTOOL_LSTRIP_VER_MINOR        1
-#define SISTOOL_LSTRIP_VER_PATCH        2
+#define SISTOOL_LSTRIP_VER_MINOR        2
+#define SISTOOL_LSTRIP_VER_PATCH        0
+#define SISTOOL_LSTRIP_VER_ALPHABETA    0xFF
 
 
 /* *********************************************************
