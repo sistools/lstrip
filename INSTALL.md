@@ -12,6 +12,7 @@
 The **lstrip** program (implemented in [**entry.c**](./entry.c)) is implemented in terms of:
 
 * [**CLASP**](https://github.com/synesissoftware/CLASP) - for command-line handling;
+* [**sistools-common-c**](https://github.com/sistools/sistools-common-c) - for shared `--help` / `--version` usage helpers;
 * [**STLSoft**](https://github.com/synesissoftware/STLSoft) - for CLI utility functions;
 
 Further, the **lstrip_test** program (implemented in [**lstrip_test.cpp**](./lstrip_test.cpp)), which is used only to test the **lstrip** library, also depends on:
@@ -88,7 +89,7 @@ The primary choice for installation is by use of **CMake**.
 
     ```plaintext
     Synesis System Tools
-    lstrip version 0.1.2.0
+    lstrip v0.2.0
     Copyright (c) 2020-2024 Synesis Information Systems
     Strips any leading whitespace, if present, from input lines
 

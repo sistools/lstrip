@@ -74,6 +74,7 @@ Defect reports, feature requests, and pull requests are welcome on [the **lstrip
 **lstrip** depends on:
 
 * [**CLASP**](https://github.com/synesissoftware/CLASP);
+* [**sistools-common-c**](https://github.com/sistools/sistools-common-c);
 * [**STLSoft**](https://github.com/synesissoftware/STLSoft);
 
 

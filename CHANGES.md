@@ -1,6 +1,14 @@
 # lstrip - Changes <!-- omit in toc -->
 
 
+## 0.2.0 - 1st September 2026
+
+* Consume **sistools-common-c** for `--help` / `--version` via **`stcc_show_help()`** / **`stcc_show_version()`**;
+* Version output now uses **Diagnosticism** version strings (via **sistools-common-c**);
+* Added **`SISTOOL_LSTRIP_VER_ALPHABETA`**;
+* Link only **`sistools-common-c::core`** for the tool (avoids duplicate **`libclasp.a`** from transitive **CLASP**);
+
+
 ## 0.1.2 - 27th August 2026
 
 * Fixed **cmake/BuildType.cmake** so the default `CMAKE_BUILD_TYPE` is set correctly in the CMake cache (`set(CMAKE_BUILD_TYPE … CACHE …)` instead of `set(CACHE CMAKE_BUILD_TYPE …)`);
